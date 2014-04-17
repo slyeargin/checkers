@@ -2,10 +2,22 @@ doctype html
 html(lang='en')
   head
     meta(charset='utf-8')
-    title Client Template
+    title Checkers
     link(rel='stylesheet', href='./css/app.css')
   body
-    h1 Client Template
+    h1 Checkers
+
+    .pure-g
+      .pure-u-1
+        table#game.pure-table.pure-table-bordered
+          tbody
+            - var rows = 8;
+            - var cols = 8;
+            - for (var i = 0; i < rows ; i++)
+              tr
+                - for (var j = 0; j < cols; j++)
+                  - var squareClass = ((i+j)%2) ? 'playable' : '';
+                  td(class=squareClass data-x=j data-y=i)
 
     script(src='./js/vendor/jquery-2.1.0.js')
     script(src='./js/source/main.js')
