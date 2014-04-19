@@ -6,6 +6,7 @@
   var image1 = '<img class="player1" src="./media/team1.png">';
   var image2 = '<img class="player2" src="./media/team2.png">';
   var currentPiece;
+  // var jumpCount = 0;
 
   function init() {
         loadPieces();
@@ -15,26 +16,52 @@
 
   function movePiece(){
     var $checker = $('.selected > img');
-    var x = currentPiece.data('x');
-    var y = currentPiece.data('y');
     var $newSquare = $(this);
-    var newX = $newSquare.data('x');
-    var newY = $newSquare.data('y');
-
-    var differenceX = Math.abs(x) - Math.abs(newX);
-    var differenceY = Math.abs(y) - Math.abs(newY);
-
-    console.log(differenceX);
-    console.log(differenceY);
 
     $newSquare.append($checker).addClass('current checker');
-    $('.selected').removeClass('selected current checker');
     $('.possibleMove').removeClass('possibleMove');
+
+    // isKing();
+    // wasJump();
+    //
+    // if canJump = true
+      // findPossibleJumps();
+
+    // if canJump = false
+    $('.selected').removeClass('selected current checker');
+
 
     if ($('.possibleMove').length === 0){
       switchPlayer();
     }
   }
+
+  // function isKing() {
+  //
+  // }
+
+  // function wasJump(jumpCount) {
+  //   var x = currentPiece.data('x');
+  //   var y = currentPiece.data('y');
+  //   var newX = $newSquare.data('x');
+  //   var newY = $newSquare.data('y');
+  //   var differenceX = Math.abs(x) - Math.abs(newX);
+  //   var differenceY = Math.abs(y) - Math.abs(newY);
+  //
+  //   if ( differenceX === 2 || differenceY === 2){
+  //     removeJumped();
+  //     jumpCount++;
+  //   }
+  //   remove jumpCheck class
+  // }
+
+
+  // function removeJumped(){
+  //   find jumped piece
+  //   if player1, add 1 to player2 pile
+  //   if player2, add 1 to player1 pile
+  //
+  // }
 
   function switchPlayer() {
     var currentPlayer = $('.current');
@@ -58,25 +85,40 @@
     var y = currentPiece.data('y');
     var className = $('.selected > img').attr('class');
 
+    //if className = player1king, player2king
     for (var i = -1; i < 2; i+=2){
       for (var j = -1; j < 2; j+=2){
         var $checkPossible = $('td.square[data-x=' + (j + x) + '][data-y=' + (i + y) + ']');
         if (!$checkPossible.hasClass('checker')){
           $checkPossible.addClass('possibleMove');
         } else {
-          $checkPossible.addClass('jumpCheck');
-          var comparePieceClass = $('.jumpCheck > img').attr('class');
-          if (comparePieceClass !== className){
-            var $checkJumpPossible = $('td.square[data-x=' + ((2 * j) + x) + '][data-y=' + ((2 * i) + y) + ']');
-            if (!$checkJumpPossible.hasClass('checker')){
-              $checkJumpPossible.addClass('possibleMove');
-            }
-          }
-          $('.jumpCheck').removeClass('jumpCheck');
+          findPossibleJumps();
         }
       }
 
+    //if player1
+    //if player2
+
     }
+
+    function findPossibleJumps(){
+
+      //if className = player1king, player2king
+      $checkPossible.addClass('jumpCheck');
+      var comparePieceClass = $('.jumpCheck > img').attr('class');
+      if (comparePieceClass !== className){
+        var $checkJumpPossible = $('td.square[data-x=' + ((2 * j) + x) + '][data-y=' + ((2 * i) + y) + ']');
+        if (!$checkJumpPossible.hasClass('checker')){
+          $checkJumpPossible.addClass('possibleMove');
+        }
+      }
+
+      $('.jumpCheck').removeClass('jumpCheck');
+
+      //if player1
+      //if player2
+    }
+
 
     // var listMoves = $('.possibleMove');
     // var listMovesLength = listMoves.length;
