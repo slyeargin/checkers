@@ -5,6 +5,8 @@
 
   var image1 = '<img class="player1" src="./media/team1.png">';
   var image2 = '<img class="player2" src="./media/team2.png">';
+  var image1king = '<img class="player1king" src="./media/team1king.png">';
+  var image2king = '<img class="player2king" src="./media/team2king.png">';
   var currentPiece;
   var className;
   var $checker;
@@ -48,11 +50,11 @@
 
   function isKing() {
     if (className === 'player1' && newY === 7){
-      $checker.addClass('player1king');
-      $checker.removeClass('player1');
+      $checker.replaceWith(image1king);
+      $checker.addClass('current');
     } else if (className === 'player2' && newY === 0){
-      $checker.addClass('player2king');
-      $checker.removeClass('player2');
+      $checker.replaceWith(image2king);
+      $checker.addClass('current');
     }
   }
 
@@ -102,7 +104,18 @@
     className = $('.selected > img').attr('class');
     var $checkPossible;
 
-    if (className === 'player1'){
+    if (className === 'player1king' || className === 'player2king') {
+      for (var k = -1; k < 2; k+=2){
+        for (var l = -1; l < 2; l+=2){
+          $checkPossible = $('td.square[data-x=' + (l + x) + '][data-y=' + (k + y) + ']');
+          if (!$checkPossible.hasClass('checker')){
+            $checkPossible.addClass('possibleMove');
+          } else {
+            findPossibleJumps();
+          }
+        }
+      }
+    } else if (className === 'player1'){
       for (var i = -1; i < 2; i+=2){
         $checkPossible = $('td.square[data-x=' + (i + x) + '][data-y=' + (y + 1) + ']');
         if (!$checkPossible.hasClass('checker')){
@@ -123,39 +136,20 @@
     }
 
 
-    //if className = player1king, player2king
-    // for (var i = -1; i < 2; i+=2){
-    //   for (var j = -1; j < 2; j+=2){
-    //     var $checkPossible = $('td.square[data-x=' + (j + x) + '][data-y=' + (i + y) + ']');
-    //     if (!$checkPossible.hasClass('checker')){
-    //       $checkPossible.addClass('possibleMove');
-    //     } else {
-    //       findPossibleJumps();
-      //   }
-      // }
-
-    //if player1
-    //if player2
-
-
 
     function findPossibleJumps(){
-
-
       $checkPossible.addClass('jumpCheck');
       var comparePieceClass = $('.jumpCheck > img').attr('class');
       var $checkJumpPossible;
 
       if (comparePieceClass !== className){
-
-        if (className === 'player1'){
+        if (className === 'player1king' || className === 'player2king') { //if className = player1king, player2king
+          $checkJumpPossible = $('td.square[data-x=' + ((2 * j) + x) + '][data-y=' + ((2 * i) + y) + ']');
+        } else if (className === 'player1'){
           $checkJumpPossible = $('td.square[data-x=' + ((2 * i) + x) + '][data-y=' + (2 + y) + ']');
         } else if (className === 'player2') {
           $checkJumpPossible = $('td.square[data-x=' + ((2 * j) + x) + '][data-y=' + (y - 2) + ']');
-        } else { //if className = player1king, player2king
-          $checkJumpPossible = $('td.square[data-x=' + ((2 * j) + x) + '][data-y=' + ((2 * i) + y) + ']');
         }
-
 
         if (!$checkJumpPossible.hasClass('checker')){
           $checkJumpPossible.addClass('possibleMove');
@@ -163,35 +157,33 @@
       }
 
       $('.jumpCheck').removeClass('jumpCheck');
-
-      //if player1
-      //if player2
     }
+  }
 
 
     // var listMoves = $('.possibleMove');
     // var listMovesLength = listMoves.length;
     // console.log(listMoves);
     // console.log(listMovesLength);
-  }
+
 
 
 
   function loadPieces(){
-    var $spaces = $('.playable');
-    var spaceCount = $spaces.length;
-    var countBack = spaceCount - 12;
-    var whichSpace;
+      var $spaces = $('.playable');
+      var spaceCount = $spaces.length;
+      var countBack = spaceCount - 12;
+      var whichSpace;
 
-    for (var i = 0; i < 12; i++){
-      whichSpace = $spaces[i];
-      $(whichSpace).addClass('current checker').append(image1);
-    }
-    for (var j = countBack; j < spaceCount ; j++){
-      whichSpace = $spaces[j];
-      $(whichSpace).addClass('checker').append(image2);
-    }
+      for (var i = 0; i < 12; i++){
+        whichSpace = $spaces[i];
+        $(whichSpace).addClass('current checker').append(image1);
+      }
+      for (var j = countBack; j < spaceCount ; j++){
+        whichSpace = $spaces[j];
+        $(whichSpace).addClass('checker').append(image2);
+      }
 
-  }
+    }
 
 }) ();
