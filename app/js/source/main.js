@@ -6,6 +6,14 @@
   var image1 = '<img class="player1" src="./media/team1.png">';
   var image2 = '<img class="player2" src="./media/team2.png">';
   var currentPiece;
+  var className;
+  var $checker;
+
+  // var x;
+  // var y;
+  var newX;
+  var newY;
+
   // var jumpCount = 0;
 
   function init() {
@@ -15,13 +23,15 @@
       }
 
   function movePiece(){
-    var $checker = $('.selected > img');
+    $checker = $('.selected > img');
     var $newSquare = $(this);
+    newX = $newSquare.data('x');
+    newY = $newSquare.data('y');
 
     $newSquare.append($checker).addClass('current checker');
     $('.possibleMove').removeClass('possibleMove');
 
-    // isKing();
+    isKing();
     // wasJump();
     //
     // if canJump = true
@@ -36,9 +46,15 @@
     }
   }
 
-  // function isKing() {
-  //
-  // }
+  function isKing() {
+    if (className === 'player1' && newY === 7){
+      $checker.addClass('player1king');
+      $checker.removeClass('player1');
+    } else if (className === 'player2' && newY === 0){
+      $checker.addClass('player2king');
+      $checker.removeClass('player2');
+    }
+  }
 
   // function wasJump(jumpCount) {
   //   var x = currentPiece.data('x');
@@ -83,31 +99,64 @@
     $('.possibleMove').removeClass('possibleMove');
     var x = currentPiece.data('x');
     var y = currentPiece.data('y');
-    var className = $('.selected > img').attr('class');
+    className = $('.selected > img').attr('class');
+    var $checkPossible;
 
-    //if className = player1king, player2king
-    for (var i = -1; i < 2; i+=2){
-      for (var j = -1; j < 2; j+=2){
-        var $checkPossible = $('td.square[data-x=' + (j + x) + '][data-y=' + (i + y) + ']');
+    if (className === 'player1'){
+      for (var i = -1; i < 2; i+=2){
+        $checkPossible = $('td.square[data-x=' + (i + x) + '][data-y=' + (y + 1) + ']');
         if (!$checkPossible.hasClass('checker')){
           $checkPossible.addClass('possibleMove');
         } else {
           findPossibleJumps();
         }
       }
+    } else if (className === 'player2'){
+      for (var j = -1; j < 2; j+=2){
+        $checkPossible = $('td.square[data-x=' + (j + x) + '][data-y=' + (y - 1) + ']');
+        if (!$checkPossible.hasClass('checker')){
+          $checkPossible.addClass('possibleMove');
+        } else {
+          findPossibleJumps();
+        }
+      }
+    }
+
+
+    //if className = player1king, player2king
+    // for (var i = -1; i < 2; i+=2){
+    //   for (var j = -1; j < 2; j+=2){
+    //     var $checkPossible = $('td.square[data-x=' + (j + x) + '][data-y=' + (i + y) + ']');
+    //     if (!$checkPossible.hasClass('checker')){
+    //       $checkPossible.addClass('possibleMove');
+    //     } else {
+    //       findPossibleJumps();
+      //   }
+      // }
 
     //if player1
     //if player2
 
-    }
+
 
     function findPossibleJumps(){
 
-      //if className = player1king, player2king
+
       $checkPossible.addClass('jumpCheck');
       var comparePieceClass = $('.jumpCheck > img').attr('class');
+      var $checkJumpPossible;
+
       if (comparePieceClass !== className){
-        var $checkJumpPossible = $('td.square[data-x=' + ((2 * j) + x) + '][data-y=' + ((2 * i) + y) + ']');
+
+        if (className === 'player1'){
+          $checkJumpPossible = $('td.square[data-x=' + ((2 * i) + x) + '][data-y=' + (2 + y) + ']');
+        } else if (className === 'player2') {
+          $checkJumpPossible = $('td.square[data-x=' + ((2 * j) + x) + '][data-y=' + (y - 2) + ']');
+        } else { //if className = player1king, player2king
+          $checkJumpPossible = $('td.square[data-x=' + ((2 * j) + x) + '][data-y=' + ((2 * i) + y) + ']');
+        }
+
+
         if (!$checkJumpPossible.hasClass('checker')){
           $checkJumpPossible.addClass('possibleMove');
         }
