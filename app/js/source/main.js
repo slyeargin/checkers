@@ -143,8 +143,8 @@
       var $checkJumpPossible;
 
       if (comparePieceClass !== className){
-        if (className === 'player1king' || className === 'player2king') { //if className = player1king, player2king
-          $checkJumpPossible = $('td.square[data-x=' + ((2 * j) + x) + '][data-y=' + ((2 * i) + y) + ']');
+        if (className === 'player1king' || className === 'player2king') {
+          $checkJumpPossible = $('td.square[data-x=' + ((2 * l) + x) + '][data-y=' + ((2 * k) + y) + ']');
         } else if (className === 'player1'){
           $checkJumpPossible = $('td.square[data-x=' + ((2 * i) + x) + '][data-y=' + (2 + y) + ']');
         } else if (className === 'player2') {
