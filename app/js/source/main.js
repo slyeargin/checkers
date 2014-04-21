@@ -143,17 +143,27 @@
       var $checkJumpPossible;
 
       if (comparePieceClass !== className){
-        if (className === 'player1king' || className === 'player2king') {
+        if (className === 'player1king' && comparePieceClass !== 'player1') {
           $checkJumpPossible = $('td.square[data-x=' + ((2 * l) + x) + '][data-y=' + ((2 * k) + y) + ']');
-        } else if (className === 'player1'){
+          if (!$checkJumpPossible.hasClass('checker')){
+            $checkJumpPossible.addClass('possibleMove');
+          }
+        } else if (className === 'player2king' && comparePieceClass !== 'player2') {
+          $checkJumpPossible = $('td.square[data-x=' + ((2 * l) + x) + '][data-y=' + ((2 * k) + y) + ']');
+          if (!$checkJumpPossible.hasClass('checker')){
+            $checkJumpPossible.addClass('possibleMove');
+          }
+        } else if (className === 'player1' && comparePieceClass !== 'player1king'){
           $checkJumpPossible = $('td.square[data-x=' + ((2 * i) + x) + '][data-y=' + (2 + y) + ']');
-        } else if (className === 'player2') {
+          if (!$checkJumpPossible.hasClass('checker')){
+            $checkJumpPossible.addClass('possibleMove');
+          }
+        } else if (className === 'player2' && comparePieceClass !== 'player2king') {
           $checkJumpPossible = $('td.square[data-x=' + ((2 * j) + x) + '][data-y=' + (y - 2) + ']');
-        }
-
-        if (!$checkJumpPossible.hasClass('checker')){
-          $checkJumpPossible.addClass('possibleMove');
-        }
+          if (!$checkJumpPossible.hasClass('checker')){
+            $checkJumpPossible.addClass('possibleMove');
+          }
+        } 
       }
 
       $('.jumpCheck').removeClass('jumpCheck');
