@@ -9,8 +9,7 @@ html(lang='en')
 
     .pure-g
       .pure-u-1
-        //- #controls
-        //-   button#start Start
+        #team1spoils
     .pure-g
       .pure-u-1
         table#game.pure-table.pure-table-bordered
@@ -22,6 +21,9 @@ html(lang='en')
                 - for (var j = 0; j < cols; j++)
                   - var squareClass = ((i+j)%2) ? 'playable' : '';
                   td(class="square "+squareClass data-x=j data-y=i)
+    .pure-g
+      .pure-u-1
+        #team2spoils
 
     script(src='./js/vendor/jquery-2.1.0.js')
     script(src='./js/source/main.js')

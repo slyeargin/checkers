@@ -11,12 +11,20 @@
   var className;
   var $checker;
 
-  // var x;
-  // var y;
+  var x;
+  var y;
   var newX;
   var newY;
+  var differenceX;
+  var differenceY;
 
-  // var jumpCount = 0;
+  var team1count = 12;
+  var team2count = 12;
+
+  var $team1spoils = $('#team1spoils');
+  var $team2spoils = $('#team2spoils');
+
+  var jumpCount = 0;
 
   function init() {
         loadPieces();
@@ -29,17 +37,18 @@
     var $newSquare = $(this);
     newX = $newSquare.data('x');
     newY = $newSquare.data('y');
+    x = currentPiece.data('x');
+    y = currentPiece.data('y');
 
     $newSquare.append($checker).addClass('current checker');
     $('.possibleMove').removeClass('possibleMove');
 
     isKing();
-    // wasJump();
-    //
+    wasJump();
+
     // if canJump = true
       // findPossibleJumps();
 
-    // if canJump = false
     $('.selected').removeClass('selected current checker');
 
 
@@ -58,28 +67,50 @@
     }
   }
 
-  // function wasJump(jumpCount) {
-  //   var x = currentPiece.data('x');
-  //   var y = currentPiece.data('y');
-  //   var newX = $newSquare.data('x');
-  //   var newY = $newSquare.data('y');
-  //   var differenceX = Math.abs(x) - Math.abs(newX);
-  //   var differenceY = Math.abs(y) - Math.abs(newY);
-  //
-  //   if ( differenceX === 2 || differenceY === 2){
-  //     removeJumped();
-  //     jumpCount++;
-  //   }
-  //   remove jumpCheck class
-  // }
+  function wasJump() {
+    differenceX = newX - x;
+    differenceY = newY - y;
+
+    if ( Math.abs(differenceX) === 2 || Math.abs(differenceY) === 2){
+      removeJumped();
+      // jumpCount++;
+    }
+  }
+
+  function removeJumped(){
+    var $jumpedPiece;
+
+    if (differenceY === 2){
+      if (differenceX === 2){
+        $jumpedPiece = $('td.square[data-x=' + (x + 1) + '][data-y=' + (y + 1) + ']');
+      } else {
+        $jumpedPiece = $('td.square[data-x=' + (x - 1) + '][data-y=' + (y + 1) + ']');
+      }
+    } else {
+      if (differenceX === 2){
+        $jumpedPiece = $('td.square[data-x=' + (x + 1) + '][data-y=' + (y - 1) + ']');
+      } else {
+        $jumpedPiece = $('td.square[data-x=' + (x - 1) + '][data-y=' + (y - 1) + ']');
+      }
+    }
+
+    $jumpedPiece.addClass('jumped');
+    var $spoils = $('.jumped > img');
+    var jumpedClass = $spoils.attr('class');
 
 
-  // function removeJumped(){
-  //   find jumped piece
-  //   if player1, add 1 to player2 pile
-  //   if player2, add 1 to player1 pile
-  //
-  // }
+    if ( jumpedClass === 'player1' || jumpedClass === 'player1king') {
+      team1count--;
+      $team2spoils.append($spoils);
+    } else if ( jumpedClass === 'player2' || jumpedClass === 'player2king') {
+      team2count--;
+      $team1spoils.append($spoils);
+    }
+
+    $('.jumped').removeClass('checker');
+    $('.jumped').removeClass('jumped');
+    jumpCount++;
+  }
 
   function switchPlayer() {
     var currentPlayer = $('.current');
@@ -135,8 +166,6 @@
       }
     }
 
-
-
     function findPossibleJumps(){
       $checkPossible.addClass('jumpCheck');
       var comparePieceClass = $('.jumpCheck > img').attr('class');
@@ -163,7 +192,7 @@
           if (!$checkJumpPossible.hasClass('checker')){
             $checkJumpPossible.addClass('possibleMove');
           }
-        } 
+        }
       }
 
       $('.jumpCheck').removeClass('jumpCheck');
