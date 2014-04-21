@@ -1,8 +1,36 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,800,300);
+
+body, #game, #team1spoils, #team2spoils {
+  margin: 0 auto;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+}
+
+#team1spoils, #team2spoils {
+  width: 500px;
+  min-height: 70px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+body {
+  background: #000 url('../media/background.jpg');
+  background-size: cover;
+}
+
+h1 {
+  text-align: center;
+  font-size: 3em;
+}
+
+#game {
+  border-collapse: collapse;
+  border: 1px solid #fff;
+}
 td {
-  background-color: #ff0000;
+  background-color: rgba(255, 255, 255, 0.8);
   height: 60px;
   width: 60px;
-  border: 3px solid #ffff00;
 }
 
 td.playable {
@@ -20,9 +48,5 @@ td.player2 {
 }
 
 td.possibleMove {
-  background-color: #aaa;
-}
-
-td.jumped {
-  background-color: #aaa;
+  background-color: #666;
 }
