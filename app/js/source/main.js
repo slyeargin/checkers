@@ -46,12 +46,12 @@
     isKing();
     wasJump();
 
-    // if canJump = true
-      // findPossibleJumps();
+    // while ( jumpCount < 0 ){
+    //   findMultJumps();
+    //   wasJump();
+    // }
 
     $('.selected').removeClass('selected current checker');
-
-
     if ($('.possibleMove').length === 0){
       switchPlayer();
     }
@@ -73,7 +73,6 @@
 
     if ( Math.abs(differenceX) === 2 || Math.abs(differenceY) === 2){
       removeJumped();
-      // jumpCount++;
     }
   }
 
@@ -102,6 +101,7 @@
     if ( jumpedClass === 'player1' || jumpedClass === 'player1king') {
       team1count--;
       $team2spoils.append($spoils);
+      console.log(team1count);
     } else if ( jumpedClass === 'player2' || jumpedClass === 'player2king') {
       team2count--;
       $team1spoils.append($spoils);
@@ -114,10 +114,19 @@
 
   function switchPlayer() {
     var currentPlayer = $('.current');
-    var upNext = $('.checker:not(.current)');
+    var $upNext = $('.checker:not(.current)');
 
-    currentPlayer.removeClass('current');
-    upNext.addClass('current');
+
+    if ( team1count !== 0 && team2count !== 0) {
+      currentPlayer.removeClass('current');
+      $upNext.addClass('current');
+    } else {
+      if ( team1count === 0 ){
+        alert ('Player 2 wins!');
+      } else {
+        alert ('Player 1 wins!');
+      }
+    }
   }
 
   function selectPiece(){
@@ -166,6 +175,14 @@
       }
     }
 
+    // function findMultJumps(){
+    //   if (className === 'player1king' || className === 'player2king'){
+    //     findPossibleJumps();
+    //   }
+    //
+    //   jumpCount = 0;
+    // }
+
     function findPossibleJumps(){
       $checkPossible.addClass('jumpCheck');
       var comparePieceClass = $('.jumpCheck > img').attr('class');
@@ -198,15 +215,6 @@
       $('.jumpCheck').removeClass('jumpCheck');
     }
   }
-
-
-    // var listMoves = $('.possibleMove');
-    // var listMovesLength = listMoves.length;
-    // console.log(listMoves);
-    // console.log(listMovesLength);
-
-
-
 
   function loadPieces(){
       var $spaces = $('.playable');
