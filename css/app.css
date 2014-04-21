@@ -1,0 +1,47 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,800,300);
+body,
+#game,
+#team1spoils,
+#team2spoils {
+  margin: 0 auto;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+}
+#team1spoils,
+#team2spoils {
+  width: 500px;
+  min-height: 70px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+body {
+  background: #000000 url('../media/background.jpg');
+  background-size: cover;
+}
+h1 {
+  text-align: center;
+  font-size: 3em;
+}
+#game {
+  border-collapse: collapse;
+  border: 1px solid #fff;
+}
+td {
+  background-color: rgba(255, 255, 255, 0.8);
+  height: 60px;
+  width: 60px;
+}
+td.playable {
+  background-color: #000;
+}
+td.player1 {
+  background-image: url('media/team1.png') no-repeat;
+  z-index: 3;
+}
+td.player2 {
+  background-image: url('media/team2.png') no-repeat;
+  z-index: 3;
+}
+td.possibleMove {
+  background-color: #666;
+}
